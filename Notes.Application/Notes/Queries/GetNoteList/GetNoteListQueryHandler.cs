@@ -12,7 +12,7 @@ namespace Notes.Application.Notes.Queries.GetNoteList
         private readonly IMapper _mapper;
 
         public GetNoteListQueryHandler(INotesDbContext dbContext, IMapper mapper) => 
-            (_dbContext, _mapper) = (_dbContext, mapper);
+            (_dbContext, _mapper) = (dbContext, mapper);
 
         public async Task<NoteListVm> Handle(GetNoteListQuery request, CancellationToken cancellationToken)
         {

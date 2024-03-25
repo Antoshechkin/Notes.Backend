@@ -6,14 +6,14 @@ using Notes.Domain;
 
 namespace Notes.Application.Notes.Commands.UpdateNote
 {
-    public class UpdateNoteCommandHandler : IRequestHandler<UpdateNoteCommand>
+    public class UpdateNoteCommandHandler : IRequestHandler<UpdateNoteCommand, Unit>
     {
         private readonly INotesDbContext _dbContext;
 
         public UpdateNoteCommandHandler(INotesDbContext dbContext) => 
             _dbContext = dbContext;
 
-        public async Task Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Notes.FirstOrDefaultAsync(note => note.Id == request.Id, cancellationToken);
 
@@ -27,6 +27,8 @@ namespace Notes.Application.Notes.Commands.UpdateNote
             entity.EditDate = DateTime.Now;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }
